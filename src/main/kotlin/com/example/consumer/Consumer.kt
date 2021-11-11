@@ -1,4 +1,4 @@
-package br.com.devcave.rabbit
+package com.example.consumer
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter

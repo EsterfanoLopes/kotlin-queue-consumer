@@ -1,8 +1,7 @@
-package br.com.devcave.rabbit.service
+package com.example.consumer.service
 
-import br.com.devcave.rabbit.domain.Person
+import com.example.consumer.model.Person
 import org.slf4j.LoggerFactory
-import org.springframework.amqp.AmqpRejectAndDontRequeueException
 import org.springframework.amqp.core.Message
 import org.springframework.amqp.core.MessageListener
 import org.springframework.amqp.support.converter.MessageConverter

@@ -1,6 +1,6 @@
-package br.com.devcave.rabbit.service
+package com.example.consumer.service
 
-import br.com.devcave.rabbit.domain.Person
+import com.example.consumer.model.Person
 import com.rabbitmq.client.Channel
 import org.slf4j.LoggerFactory
 import org.springframework.amqp.rabbit.annotation.RabbitListener

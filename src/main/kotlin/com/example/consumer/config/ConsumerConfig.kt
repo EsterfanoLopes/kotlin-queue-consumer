@@ -1,6 +1,6 @@
-package br.com.devcave.rabbit.config
+package com.example.consumer.config
 
-import br.com.devcave.rabbit.service.QueueListener
+import com.example.consumer.service.QueueListener
 import org.aopalliance.aop.Advice
 import org.springframework.amqp.rabbit.config.RetryInterceptorBuilder
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory

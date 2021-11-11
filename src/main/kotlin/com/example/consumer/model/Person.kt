@@ -1,4 +1,4 @@
-package br.com.devcave.rabbit.domain
+package com.example.consumer.model
 
 import java.time.LocalDate
 
@@ -6,5 +6,6 @@ data class Person(
     val name: String,
     val collageCompletedYear: Int?,
     val bornAt: LocalDate,
-    val active: Boolean
+    val active: Boolean,
+    var delivered: Boolean?
 )
