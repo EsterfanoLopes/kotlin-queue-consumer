@@ -25,9 +25,3 @@ class QueueListener(
 
     }
 }
-
-
-
-
-
-//                throw AmqpRejectAndDontRequeueException("Wrong data for person class")
