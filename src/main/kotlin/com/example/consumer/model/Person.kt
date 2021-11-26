@@ -1,5 +1,6 @@
 package com.example.consumer.model
 
+import com.example.consumer.util.exceptions.ValidationException
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import java.time.LocalDate
@@ -14,4 +15,10 @@ data class Person(
     val bornAt: LocalDate,
     val active: Boolean,
     var delivered: Boolean?
-)
+) {
+    fun validate() {
+        if (this.collageCompletedYear == null) {
+            throw ValidationException("collage completed year is missing.")
+        }
+    }
+}
