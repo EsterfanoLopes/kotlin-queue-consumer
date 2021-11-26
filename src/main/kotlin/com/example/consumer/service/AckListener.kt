@@ -3,7 +3,8 @@ package com.example.consumer.service
 import com.example.consumer.model.Person
 import com.example.consumer.repository.PersonRepository
 import com.rabbitmq.client.Channel
-import kotlinx.coroutines.reactive.awaitFirst
+import kotlinx.coroutines.reactive.awaitFirstOrNull
+import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.amqp.support.AmqpHeaders
@@ -21,15 +22,31 @@ class AckListener(
         person: Person,
         channel: Channel,
         @Header(AmqpHeaders.DELIVERY_TAG) tag: Long?
-    ) {
-        log.info("person $person")
-        val test = personRepository.save(person.copy(delivered = true))
-        if (person.collageCompletedYear == null) {
-            log.warn("message wrong")
-            channel.basicNack(tag ?: 0L, false, false)
-        } else {
-            log.info("message Ok")
-            channel.basicAck(tag ?: 0L, false)
+    ) = runBlocking {
+        log.info("person ${person}")
+        try {
+            personRepository.findOneByExternalId(person.externalId)
+                .awaitFirstOrNull()
+                ?.let{ found ->
+                    log.info("found ${found}")
+                    when(found.collageCompletedYear) {
+                        null -> {
+                            log.warn("message wrong")
+                            channel.basicNack(tag ?: 0L, false, false)
+                        }
+                        else -> {
+                            log.info("message Ok")
+                            personRepository
+                                .save(found.copy(delivered = true))
+                                .awaitFirstOrNull()
+                                ?.let {
+                                    channel.basicAck(tag ?: 0L, false)
+                                }
+                        }
+                    }
+                } ?: throw Exception("person not found")
+        } catch (e: Exception) {
+            log.warn(e.message)
         }
     }
 }
